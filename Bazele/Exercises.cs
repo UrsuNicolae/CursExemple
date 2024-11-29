@@ -1,4 +1,6 @@
-﻿using System.Runtime.InteropServices;
+﻿using Bazele.Implementaions;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Bazele
 {
@@ -184,15 +186,15 @@ namespace Bazele
 
         public static void SalariuCuBonus()
         {
-            CalculateArea(new Angajat { Name = "Manager", Sallary = 1000});
-            CalculateArea(new Angajat { Name = "Vanzator", Sallary = 500});
-            CalculateArea(new Angajat { Name = "Dezvoltator", Sallary = 1200});
+            CalculateArea(new Angajat { Name = "Manager", Sallary = 1000 });
+            CalculateArea(new Angajat { Name = "Vanzator", Sallary = 500 });
+            CalculateArea(new Angajat { Name = "Dezvoltator", Sallary = 1200 });
 
             void CalculateArea(Angajat obj)
             {
                 switch (obj)
                 {
-                    case { Name: "Manager"}:
+                    case { Name: "Manager" }:
                         Console.WriteLine($"Salariul cu bonus pentru Manager este: {obj.Sallary + 500}");
                         break;
                     case { Name: "Vanzator" }:
@@ -206,6 +208,107 @@ namespace Bazele
                         break;
                 }
             }
+        }
+
+        public static void SumArray()
+        {
+            /*var arr = new int[5];
+            double sum = 0;
+            Console.WriteLine($"Citite {arr.Length} elemente de la tastatura");
+
+            arr[0] = int.Parse( Console.ReadLine() );
+            sum += arr[0];
+            arr[1] = int.Parse( Console.ReadLine() );
+            sum += arr[1];
+            arr[2] = int.Parse( Console.ReadLine() );
+            sum += arr[2];
+            arr[3] = int.Parse( Console.ReadLine() );
+            sum += arr[3];
+            arr[4] = int.Parse( Console.ReadLine() );
+            sum += arr[4];
+            Console.WriteLine($"Suma medie este {sum / 5}");*/
+
+            var input = ReadArrayElements();
+            double[] arr = Array.ConvertAll(input.Split(' '), double.Parse);
+            var med = arr.Sum() / arr.Length;
+            Console.WriteLine($"Suma medie este {med}");
+        }
+
+        public static void InverArray()
+        {
+            var input = ReadArrayElements();
+            var arr = Array.ConvertAll(input.Split(' ').Reverse().ToArray(), int.Parse);
+            foreach (var i in arr)
+            {
+                Console.WriteLine(i);
+            }
+        }
+
+        public static void DistincElements()
+        {
+            var input = ReadArrayElements();
+            var arr = input.Split(' ');
+            var distinct = arr.Distinct();
+            foreach (var i in distinct)
+            {
+                Console.WriteLine(i);
+            }
+        }
+
+        public static void MaxMin()
+        {
+            var input = ReadArrayElements();
+            var arr = input.Split(" ").ToArray(); //Array.ConvertAll(input.Split(" "), int.Parse);
+            Console.WriteLine($"Elementul maxim este {arr.Max()}");
+            Console.WriteLine($"Elementul min este {arr.Min()}");
+        }
+
+        public static void StackImplementation()
+        {
+            Stack<int> stack = new Stack<int>();
+            var input = ReadArrayElements("Scriteti numere array-ului separte prin spatiu");
+            var elements = Array.ConvertAll(input.Split(" "), int.Parse);
+            foreach(var e in elements)
+            {
+                stack.Push(e);
+            }
+
+            Console.WriteLine($"Elementul de top este {stack.Pop()}");
+            Console.WriteLine($"Urmatorul element este {stack.Peek()}");
+        }
+
+        public static void QueueImplementation()
+        {
+            Queue<int> queue = new Queue<int>();
+            var input = ReadArrayElements("Scriteti numere array-ului separte prin spatiu");
+            var elements = Array.ConvertAll(input.Split(" "), int.Parse);
+            foreach (var e in elements)
+            {
+                queue.Enqueue(e);
+            }
+
+            Console.WriteLine($"Elementul de top este {queue.Dequeue()}");
+            Console.WriteLine($"Urmatorul element este {queue.Peek()}");
+        }
+
+        public static void QueueImplementationWithStack()
+        {
+            var queue = new Queue<int>();
+            queue.Enqueue(1);
+            queue.Enqueue(2);
+            queue.Enqueue(3);
+
+            Console.WriteLine(queue.Dequeue());
+            Console.WriteLine(queue.Peek());
+        }
+
+
+        public static string ReadArrayElements(string text = null)
+        {
+            var textToDispaly = text ?? "Scriteti elementele array-ului separte prin spatiu";
+            Console.WriteLine(textToDispaly);
+            string input = Console.ReadLine();
+            return input;
         }
     }
 }
