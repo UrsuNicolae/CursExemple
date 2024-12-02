@@ -6,8 +6,8 @@ namespace Bazele
     {
         static void Main(string[] args)
         {
-            Exercises.QueueImplementationWithStack();
-
+            //Exercises.BankAccounts();
+            HomeWorks.StudentsGrades();
         }
     }
 }

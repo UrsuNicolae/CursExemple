@@ -1,4 +1,6 @@
-﻿using Bazele.Implementaions;
+﻿using Bazele.HW;
+using Bazele.Implementaions;
+using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 
@@ -268,7 +270,7 @@ namespace Bazele
             Stack<int> stack = new Stack<int>();
             var input = ReadArrayElements("Scriteti numere array-ului separte prin spatiu");
             var elements = Array.ConvertAll(input.Split(" "), int.Parse);
-            foreach(var e in elements)
+            foreach (var e in elements)
             {
                 stack.Push(e);
             }
@@ -309,6 +311,204 @@ namespace Bazele
             Console.WriteLine(textToDispaly);
             string input = Console.ReadLine();
             return input;
+        }
+
+        public static void ReadStudentGrades()
+        {
+            Console.WriteLine("Scrie numarul de note optinute");
+            var n = int.Parse(Console.ReadLine());
+            var note = new List<int>();
+            var nrNoteNegative = 0;
+            var nrNotePozitive = 0;
+            double media = 0;
+            for (int i = 0; i < n; i++)
+            {
+                var nota = int.Parse(Console.ReadLine());
+                note.Add(nota);
+                if (nota > 5)
+                {
+                    nrNotePozitive++;
+                }
+                else
+                {
+                    nrNoteNegative++;
+                }
+                media += nota;
+            }
+
+            if (nrNoteNegative != 0)
+            {
+                Console.WriteLine($"Elevul este corigent deoarce are {nrNoteNegative} note negative");
+            }
+            else
+            {
+                Console.WriteLine($"Elevul nu este corigent deoarce are {nrNoteNegative} note negative");
+            }
+            Console.WriteLine($"Media notelor este {media / n}");
+        }
+
+        public static void WriteEventNumbers()
+        {
+            for (int i = 1; i <= 100; i++)
+            {
+                if (i % 2 != 0)
+                {
+                    continue;
+                }
+                Console.Write(i + " ");
+            }
+        }
+
+        public static void CheckPrimeNumbers()
+        {
+            var nr = -1;
+            while (nr != 0)
+            {
+                Console.WriteLine("Scrieti numarul pentru verificare");
+                nr = int.Parse(Console.ReadLine());
+                var isPrime = true;
+                for (int i = 2; i < Math.Sqrt(nr); i++)
+                {
+                    if (nr % i == 0)
+                    {
+                        isPrime = false;
+                        break;
+                    }
+                }
+
+                if (isPrime)
+                {
+
+                    Console.WriteLine("Numarul este prim");
+                }
+                else
+                {
+                    Console.WriteLine("Numarul nu este prim");
+                }
+            }
+        }
+
+        public static void CalculateSumOfDigits()
+        {
+            Console.WriteLine("Scrie un numar");
+            var n = int.Parse(Console.ReadLine());
+            var sum = 0;
+            while (n != 0)
+            {
+                sum += n % 10;
+                n /= 10;
+            }
+            Console.WriteLine($"Suma digiturilor este {sum}");
+        }
+
+        public static void DisplayFibonacci()
+        {
+            var n = int.Parse(Console.ReadLine());
+            var a = 0; var b = 1; var c = 1;
+            Console.Write(a + " ");
+            for (var i = 2; i < n; i++)
+            {
+                Console.Write(c + " ");
+                c = a + b;
+                a = b;
+                b = c;//12321
+            }
+        }
+
+        public static void CheckPalindrom()
+        {
+            var nr = int.Parse(Console.ReadLine());
+            var originalNr = nr;
+            var reversNr = 0;
+
+            do
+            {
+                int digit = nr % 10;
+                reversNr = reversNr * 10 + digit;
+                nr = nr / 10;
+            } while (nr != 0);
+
+            if (originalNr == reversNr)
+            {
+                Console.WriteLine("Numarul este palindrom");
+            }
+            else
+            {
+                Console.WriteLine("Numarul nu este palindrom");
+            }
+        }
+
+        public static void BubbleSort()
+        {
+            Console.WriteLine("Scrieti numerele separate prin spatiu");
+
+            int[] numbers = Array.ConvertAll(Console.ReadLine().Split(" "), int.Parse);
+
+            for (int i = 0; i < numbers.Length - 1; i++)
+            {
+                for (int j = 0; j < numbers.Length - 1 - i; j++)
+                {
+                    if (numbers[j] > numbers[j + 1])
+                    {
+                        int aux = numbers[j];
+                        numbers[j] = numbers[j + 1];
+                        numbers[j + 1] = aux;
+                    }
+                }
+            }
+
+            foreach (int i in numbers)
+            {
+                Console.Write(i + " ");
+            }
+        }
+
+        public static void Matrice()
+        {
+            int n = int .Parse(Console.ReadLine());
+            int[,] matrice = new int[n, n];
+            var patratic = true;
+            Console.WriteLine("Introdu elementele");
+            for (int i = 0; i < n; i++)
+            {
+                var input = Console.ReadLine().Split(" ");
+                for(int j = 0; j < n; j++)
+                {
+                    matrice[i, j] = int.Parse(input[j]);
+                }
+            }
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if((i == j && matrice[i, j] != 1) || (i != j && matrice[i, j] != 0))
+                    {
+                        patratic = false;
+                        break;
+                    }
+                }
+            }
+
+            if( patratic)
+            {
+                Console.WriteLine("Matrice patratica");
+            }
+            else
+            {
+                Console.WriteLine("Matrice non patratica");
+            }
+        }
+
+        public static void BankAccounts()
+        {
+            var manager = new BankManager();
+            manager.AddBankAcount("test", 10);
+            manager.DisplayAccounts();
+            manager.DeleteAccounts(3);
+            manager.DisplayAccounts();
+            manager.DeleteAccounts(1);
+            manager.DisplayAccounts();
         }
     }
 }
