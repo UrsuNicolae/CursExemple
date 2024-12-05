@@ -1,8 +1,12 @@
-﻿using Bazele.HW;
+﻿using Bazele.Exceptions;
+using Bazele.HW;
 using Bazele.Implementaions;
+using System.Net.Http.Headers;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using System.Security.Cryptography.X509Certificates;
+using System.Text.Json;
 
 namespace Bazele
 {
@@ -13,6 +17,9 @@ namespace Bazele
     }
     static class Exercises
     {
+
+        #region Exercices lesson till 9
+        private static Dictionary<string, string> dict = new Dictionary<string, string>() { { "nicolae", "pwd1231" } };
         public static void LeapYear()
         {
             var an = int.Parse(Console.ReadLine());
@@ -465,14 +472,14 @@ namespace Bazele
 
         public static void Matrice()
         {
-            int n = int .Parse(Console.ReadLine());
+            int n = int.Parse(Console.ReadLine());
             int[,] matrice = new int[n, n];
             var patratic = true;
             Console.WriteLine("Introdu elementele");
             for (int i = 0; i < n; i++)
             {
                 var input = Console.ReadLine().Split(" ");
-                for(int j = 0; j < n; j++)
+                for (int j = 0; j < n; j++)
                 {
                     matrice[i, j] = int.Parse(input[j]);
                 }
@@ -482,7 +489,7 @@ namespace Bazele
             {
                 for (int j = 0; j < n; j++)
                 {
-                    if((i == j && matrice[i, j] != 1) || (i != j && matrice[i, j] != 0))
+                    if ((i == j && matrice[i, j] != 1) || (i != j && matrice[i, j] != 0))
                     {
                         patratic = false;
                         break;
@@ -490,7 +497,7 @@ namespace Bazele
                 }
             }
 
-            if( patratic)
+            if (patratic)
             {
                 Console.WriteLine("Matrice patratica");
             }
@@ -509,6 +516,123 @@ namespace Bazele
             manager.DisplayAccounts();
             manager.DeleteAccounts(1);
             manager.DisplayAccounts();
+        }
+
+        public static void ConvertNumber(string number)
+        {
+            /*bool conversionResult = int.TryParse(number, out int num);
+            if (conversionResult)
+            {
+                Console.WriteLine(num);
+            }
+            else
+            {
+                throw new FormatException($"{number} is not a valid number");
+            }*/
+
+            try
+            {
+                var num = int.Parse(number);
+                Console.WriteLine(num);
+            }
+            catch (FormatException ex)
+            {
+                Console.WriteLine("Exceptie!!!!!!!!");
+                throw ex;
+            }
+        }
+
+        public static void AccessArrayIndex(int index)
+        {
+            try
+            {
+                var arr = new int[] { 1, 2, 3, 4, 5, 6, 7 };
+                Console.WriteLine(arr[index]);
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+            }
+            throw new ArgumentOutOfRangeException($"Index {index} is out of range");
+        }
+
+        public static void AddKeyValue(string key, string value)
+        {
+            if (dict.ContainsKey(key))
+            {
+                throw new ArgumentException($"Key {key} already exists");
+            }
+            dict[key] = value;
+        }
+
+
+
+        #endregion
+
+        public static string SerializeAngajat(Angajat angajat)
+        {
+            if (angajat.Name.Length < 4)
+            {
+                throw new InvalidDataException($"Property {nameof(angajat.Name)} has invalid length.");
+            }
+
+            if (int.TryParse(angajat.Name, out int result))
+            {
+                throw new InvalidDataException($"Property {nameof(angajat.Name)} is not a valid name.");
+            }
+
+            if (angajat.Name.Length > 20)
+            {
+                throw new InvalidDataException($"Property {nameof(angajat.Name)} has invalid length.");
+            }
+
+            if (angajat.Sallary < 0)
+            {
+                throw new InvalidDataException($"Property {nameof(angajat.Sallary)} has invalid value.");
+            }
+
+
+            try
+            {
+                return JsonSerializer.Serialize(angajat);
+            }
+            catch (Exception ex)
+            {
+                throw new SerializationException();
+            }
+        }
+
+        public static void WithDraw()
+        {
+            try
+            {
+                var bankAcc = new BankAccount();
+                bankAcc.Add(1231);
+                bankAcc.WithDraw(1230);
+                bankAcc.WithDraw(10);
+            }
+            catch (InsuficientFoundExceptions ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public static bool CheckForDuplicates(List<int> numbers)
+        {
+            if(numbers == null || numbers.Count == 0)
+            {
+                throw new EmptyListException("Lista este goala sau nulla");
+            }
+
+            return numbers.Count != numbers.Distinct().Count();
+        }
+
+        public static int[] ReverseArray(int[] numbers)
+        {
+            if (numbers == null || numbers.Length == 0)
+            {
+                throw new EmptyListException("Array-ul este goal sau null");
+            }
+            return numbers.Reverse().ToArray();
         }
     }
 }

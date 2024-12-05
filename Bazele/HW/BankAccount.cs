@@ -1,10 +1,26 @@
-﻿namespace Bazele.HW
+﻿using Bazele.Exceptions;
+
+namespace Bazele.HW
 {
     public struct BankAccount
     {
         public int Id;
         public string Name;
         public decimal Value;
+
+        public void Add(decimal value)
+        {
+            Value += value;
+        }
+
+        public void WithDraw(decimal value)
+        {
+            if (value > Value)
+            {
+                throw new InsuficientFoundExceptions("Mijloace insuficienta");
+            }
+            Value -= value;
+        }
     }
 
     public struct BankManager

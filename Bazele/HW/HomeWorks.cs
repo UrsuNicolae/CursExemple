@@ -56,5 +56,7 @@
                 Console.WriteLine($"Angajaturl {angajati[2].nume} are salariul peste medie");
             }
         }
+
+        
     }
 }
