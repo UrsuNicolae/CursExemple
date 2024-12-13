@@ -1,11 +1,6 @@
 ﻿using Bazele.Exceptions;
 using Bazele.HW;
-using Bazele.Implementaions;
-using System.Net.Http.Headers;
-using System.Numerics;
-using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
-using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 
 namespace Bazele
@@ -618,7 +613,7 @@ namespace Bazele
 
         public static bool CheckForDuplicates(List<int> numbers)
         {
-            if(numbers == null || numbers.Count == 0)
+            if (numbers == null || numbers.Count == 0)
             {
                 throw new EmptyListException("Lista este goala sau nulla");
             }
@@ -634,5 +629,84 @@ namespace Bazele
             }
             return numbers.Reverse().ToArray();
         }
+
+        #region IO
+        public static void WriteTextToFile()
+        {
+            var path = "C:\\notes.txt";
+            /*File.Create(path).Close();
+            File.WriteAllLines(path, new string[] { "randul 1", "randul 2", "randul 3" });
+            Console.WriteLine(File.ReadAllText(path));*/
+
+            using (StreamWriter sw = new StreamWriter(path))
+            {
+                sw.WriteLine("Acesta este primul rand");
+                sw.WriteLine("Acesta este al doilea rand");
+                sw.WriteLine("Acesta este al treilea rand");
+            }
+
+
+            using (StreamReader sr = new StreamReader(path))
+            {
+                var content = sr.ReadToEnd();
+                Console.WriteLine(content);
+            }
+        }
+
+        public static void ModifyFileAttributes()
+        {
+            var path = "C:\\example.txt";
+            //File.Create(path).Close();
+
+            FileInfo file = new FileInfo(path);
+            if ((file.Attributes & FileAttributes.ReadOnly) != FileAttributes.ReadOnly)
+            {
+                Console.WriteLine("Fisierul nu este readonly");
+            }
+            file.Attributes &= ~FileAttributes.ReadOnly;
+            if ((file.Attributes & FileAttributes.ReadOnly) != FileAttributes.ReadOnly)
+            {
+                Console.WriteLine("Fisierul nu este readonly");
+            }
+        }
+
+        public static void ModifiyFileTime()
+        {
+            var path = "C:\\timestamp.txt";
+            File.Create(path).Close();
+
+            var fileInfo = new FileInfo(path);
+            Console.WriteLine("Timpul de access initial:" + fileInfo.LastAccessTime);
+            Console.WriteLine("Timpul de modificare initial:" + fileInfo.LastWriteTime);
+
+            var newDate = new DateTime(2020, 1, 1, 12, 0, 0);
+            fileInfo.LastWriteTime = newDate;
+            fileInfo.LastAccessTime = newDate;
+            Console.WriteLine("Timpul de access initial:" + fileInfo.LastAccessTime);
+            Console.WriteLine("Timpul de modificare initial:" + fileInfo.LastWriteTime);
+        }
+
+
+        public static void CreateDirectory()
+        {
+            var path = "C:\\NewDir";
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            if(!File.Exists(path + "\\test.txt"))
+            {
+                File.Create(path + "\\test.txt").Close();
+            }
+           
+            File.WriteAllText(path + "\\test.txt", "Test content");
+            foreach(var file in Directory.GetFiles(path))
+            {
+                Console.WriteLine(file);
+            }
+        }
+
+        #endregion
     }
 }
