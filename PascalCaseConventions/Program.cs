@@ -60,16 +60,8 @@
     {
         static void Main(string[] args)
         {
-            var admin = new Rol("Administrator", "Acces complet la sistem.");
-            var utilizatorObisnuit = new Rol("Utilizator", "Acces limitat.");
-
-            var user = new Utilizator(1, "IonPopescu", "parola123");
-            user.AdaugaRol(admin);
-            user.AdaugaRol(utilizatorObisnuit);
-
-            Console.WriteLine(user);
-            Console.WriteLine($"Are rol de administrator? {user.VerificaRol("Administrator")}");
-            Console.ReadKey();
+            var intCl = new IntClass();
+            intCl.DisplayDate();
 
         }
     }
